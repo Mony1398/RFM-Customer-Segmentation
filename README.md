@@ -13,7 +13,7 @@ The analysis is based on transactional data of more than **113,800 customers**, 
 ## Project Structure
 
 ### Report
-[Full RFM Analysis Report (PDF)](report/Bao-cao-phan-tich-khach-hang-RFM)
+[Full RFM Analysis Report (PDF)](Report/Bao-cao-phan-tich-khach-hang-RFM)
 
 ### Dashboard Preview
 *(add screenshots of your Power BI dashboard here)*  
