@@ -16,9 +16,7 @@ The analysis is based on transactional data of more than **113,800 customers**, 
 [Full RFM Analysis Report (PDF)](Report/Bao-cao-phan-tich-khach-hang-RFM.pdf)
 
 ### Dashboard Preview
-*(add screenshots of your Power BI dashboard here)*  
-Example:  
-![Dashboard](images/dashboard.png)
+[Dashboard](images/line%and%clustered%column%chart.png)
 
 ### Key Insights
 - **At Risk Customers** (≈ 28% of customers, 714M USD) → biggest risk segment, requires urgent retention campaigns.  
