@@ -1,7 +1,7 @@
 USE `project 1 RFM`;
 SET @endday = '2022-09-01';
 CREATE TEMPORARY TABLE `RFM_BASE` AS 
-	WITH RFM_VALUES AS (				-- Tính Recency, Frequency, Monetary 													
+	WITH RFM_VALUES AS (				-- Calculate Recency, Frequency, Monetary 													
 		SELECT CustomerID, LocationID, BranchCode,
 			DATEDIFF( @endday, MAX( new_Purchase_Date ) ) AS Recency,
 			COUNT( DISTINCT DATE( new_Purchase_Date ) ) / ( DATEDIFF( @endday , new_Created_date ) / 365 ) AS Frequency,
@@ -27,12 +27,12 @@ CREATE TEMPORARY TABLE `RFM_BASE` AS
 		SELECT *, COUNT(*) OVER () AS total_rows
 		FROM RFM_SORTED
 	)
-SELECT *,   							-- xác định vị trí Q1-3	
+SELECT *,   							-- Determine Q1-Q3 positions	
 	total_rows * 0.25 AS Q1,
 	total_rows * 0.50 AS Q2,
 	total_rows * 0.75 AS Q3
 FROM TOTALROWS;
--- Xác định giá trị Q1-3
+-- Determine Q1-Q3 values
 CREATE TEMPORARY TABLE Q_VALUES AS 
 	SELECT  
 		MAX(CASE WHEN R_sorted <= Q1 THEN Recency END) AS Q1R,
@@ -46,7 +46,7 @@ CREATE TEMPORARY TABLE Q_VALUES AS
         MAX(CASE WHEN M_sorted <= Q3 THEN monetary END) AS Q3M
 	FROM RFM_BASE;
 			COUNT( DISTINCT DATE( new_Purchase_Date ) ) / ( DATEDIFF( @endday , new_Created_date ) / 365 ) AS Frequency,
--- tạo bảng tổng hợp các giá trị Q của R-F-M
+-- Create combined Q values table for R-F-M
 WITH T AS (
     SELECT s.*, v.line
     FROM Q_VALUES AS s
@@ -65,7 +65,7 @@ SELECT
     CASE line WHEN 1 THEN Q2R WHEN 2 THEN Q2F ELSE Q2M END AS Q2,
     CASE line WHEN 1 THEN Q3R WHEN 2 THEN Q3F ELSE Q3M END AS Q3
 FROM T;
--- Chấm điểm RFM và phân nhóm khách hàng
+-- Score RFM and segment customers
 WITH RFM_SCORE AS (
 	SELECT customerID, LocationID, BranchCode, recency, frequency, monetary,
 		CASE 
